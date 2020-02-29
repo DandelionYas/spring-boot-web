@@ -1,12 +1,12 @@
 package com.in28minutes.springboot.web.service;
 
+import com.in28minutes.springboot.web.model.Todo;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import com.in28minutes.springboot.web.model.Todo;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TodoService {
@@ -29,6 +29,21 @@ public class TodoService {
             }
         }
         return filteredTodos;
+    }
+
+    public Todo retrieveTodo(int  id) {
+        for (Todo todo : todos) {
+            if (todo.getId()==id) {
+                return todo;
+            }
+        }
+
+        return null;
+    }
+
+    public void updateTodo(Todo todo) {
+        todos.remove(todo);
+        todos.add(todo);
     }
 
     public void addTodo(String name, String desc, Date targetDate,
