@@ -32,7 +32,7 @@ public class TodoController {
 
     @GetMapping("/list-todos")
     public String showTodosList(ModelMap model) {
-        String name = (String) model.get("name");
+        String name = getLoggedInUsername(model);
         model.put("todos", todoService.retrieveTodos(name));
         return "list-todos";
     }
@@ -42,7 +42,7 @@ public class TodoController {
         //to be used as command name in todo.jsp
         model.addAttribute(
                 "todo",
-                new Todo(0,(String) model.get("name"), "Default Description", new Date(), false));
+                new Todo(0, getLoggedInUsername(model), "Default Description", new Date(), false));
         return "todo";
     }
 
@@ -51,7 +51,7 @@ public class TodoController {
         if(result.hasErrors()) {
             return "todo";
         }
-        todoService.addTodo((String) model.get("name"), todo.getDesc(), todo.getTargetDate(), false);
+        todoService.addTodo(getLoggedInUsername(model), todo.getDesc(), todo.getTargetDate(), false);
         return "redirect:/list-todos";
     }
 
@@ -74,10 +74,12 @@ public class TodoController {
             return "todo";
         }
 
-        todo.setUser((String) model.get("name"));
+        todo.setUser(getLoggedInUsername(model));
         todoService.updateTodo(todo);
         return "redirect:/list-todos";
     }
 
-
+    private String getLoggedInUsername(ModelMap model) {
+        return (String) model.get("name");
+    }
 }

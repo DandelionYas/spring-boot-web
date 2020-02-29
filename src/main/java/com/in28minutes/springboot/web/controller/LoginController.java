@@ -14,24 +14,12 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    @ResponseBody
-//    @GetMapping("/login")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    @ResponseBody //This annotation prevents DispatcherServlet from looking for view
+                    //And returns response value directly to the client
+//    @GetMapping("/login") //It also contains @ResponseBody
     public String showLoginPage(ModelMap model) {
-        return "login";
-    }
-
-    @PostMapping("/login")
-    public String showWelcomePage(ModelMap model,
-                                  @RequestParam String name,
-                                  @RequestParam String password) {
-        if(!loginService.isValidUser(name, password)) {
-            model.put("errorMessage", "Invalid credentials!");
-            return "login";
-        }
-
-        model.put("name", name);
-        model.put("password", password);
+        model.put("name", "Yaser");
         return "welcome";
     }
 }
