@@ -1,4 +1,4 @@
-package com.in28minutes.springboot.web.security;
+package com.in28minutes.springboot.web.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /*
-     * After adding global security the default user which auto configured will be overwritten
+     * After adding global configuration the default user which auto configured will be overwritten
      */
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -28,7 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin();// If does not have USER role show the Login page
 
         // h2-console is part of a frame so following configs should be disabled
-        httpSecurity.csrf().disable();// csrf is one of the security threads
+        httpSecurity.csrf().disable();// csrf is one of the configuration threads
         httpSecurity.headers().frameOptions().disable();
     }
 }
