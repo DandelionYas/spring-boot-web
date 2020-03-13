@@ -1,8 +1,8 @@
 <%@ include file="common/header.jspf"%>
 <%@ include file="common/navigation.jspf"%>
 <div class="container">
-    <%-- command name is come from Attribute added to model --%>
-    <form:form method="post" commandName="todo">
+    <%-- modelAttribute is the name of Attribute added to model in old version was commandName --%>
+    <form:form method="post" modelAttribute="todo">
         <fieldset class="form-group">
             <form:hidden path="id"/>
             <form:label path="desc">Description</form:label>

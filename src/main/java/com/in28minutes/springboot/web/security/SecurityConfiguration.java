@@ -16,15 +16,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobalSecurity(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.inMemoryAuthentication()
                 .withUser("Yaser")
-                .password("dummy")
+                .password("{noop}dummy")
                 .roles("USER", "ADMIN");
     }
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/h2-console/**").permitAll()
                 .antMatchers("/", "/*todo*/**").access("hasRole('USER')").and()
                 .formLogin();// If does not have USER role show the Login page
+
+        // h2-console is part of a frame so following configs should be disabled
+        httpSecurity.csrf().disable();// csrf is one of the security threads
+        httpSecurity.headers().frameOptions().disable();
     }
 }
