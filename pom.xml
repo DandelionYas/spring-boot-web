@@ -59,7 +59,7 @@
 			<artifactId>jquery</artifactId>
 			<version>1.9.1</version>
 		</dependency>
-        <dependency>
+		<dependency><!--To enable support for JSP as view in embedded tomcat-->
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
