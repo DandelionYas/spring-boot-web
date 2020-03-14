@@ -2,7 +2,6 @@ package com.in28minutes.springboot.web.controller;
 
 import com.in28minutes.springboot.web.model.Todo;
 import com.in28minutes.springboot.web.repository.TodoRepository;
-import com.in28minutes.springboot.web.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -44,7 +43,7 @@ public class TodoController {
         //to be used as command name in todo.jsp
         model.addAttribute(
                 "todo",
-                new Todo(0, getLoggedInUsername(model), "Default Description", new Date(), false));
+                new Todo(getLoggedInUsername(model), "Default Description", new Date(), false));
         return "todo";
     }
 
