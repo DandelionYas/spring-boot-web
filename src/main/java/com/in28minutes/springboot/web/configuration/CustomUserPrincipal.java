@@ -1,28 +1,35 @@
 package com.in28minutes.springboot.web.configuration;
 
+import com.in28minutes.springboot.web.entity.AuthGroup;
 import com.in28minutes.springboot.web.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class CustomUserPrincipal implements UserDetails {
-    /*
-    * Within Spring Security, there is a difference between roles and authorities.
-    * While an authority can be anything, roles are a subset of authorities that start with ROLE_
-    */
-    private String defaultRolePrefix = "ROLE_";
-    private User user;
+    private final User user;
 
     public CustomUserPrincipal(User user) {
         this.user = user;
     }
 
+    /*
+    * ROLE_ prefix is being add in GrantedAuthoritiesMapper bean
+    */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(defaultRolePrefix + user.getRole()));
+        List<AuthGroup> authGroups = user.getAuthGroups();
+        if (authGroups == null) {
+            return Collections.emptySet();
+        }
+
+        Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
+        authGroups.forEach(group -> {
+                grantedAuthorities.add(new SimpleGrantedAuthority(group.getAuthGroup()));
+        });
+        return grantedAuthorities;
     }
 
     @Override
