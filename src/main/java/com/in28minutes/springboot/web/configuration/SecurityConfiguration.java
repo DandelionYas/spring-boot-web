@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -12,6 +13,7 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
@@ -25,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 .antMatchers("/login", "/h2-console/**").permitAll()
-                .antMatchers("/", "/*todo*/**").access("hasRole('ADMIN')").and()
+                .antMatchers("/", "/*todo*/**").access("hasRole('USER')").and()
                 .formLogin();// If does not have USER authGroups show the Login page
 
         // h2-console is part of a frame so following configs should be disabled

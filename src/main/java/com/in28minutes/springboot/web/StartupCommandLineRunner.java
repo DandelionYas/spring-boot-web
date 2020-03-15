@@ -40,12 +40,12 @@ public class StartupCommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         List<AuthGroup> admin = new ArrayList<>();
-        admin.add(new AuthGroup("Yaser", "ADMIN"));
+        admin.add(new AuthGroup("USER"));
+        admin.add(new AuthGroup("ADMIN"));
         authGroupRepository.saveAll(admin);
         User yaser = new User("Yaser", passwordEncoder.encode("dummy1"), admin);
         List<AuthGroup> user = new ArrayList<>();
-        user.add(new AuthGroup("Hadi", "USER"));
-        user.add(new AuthGroup("Hadi", "ADMIN"));
+        user.add(new AuthGroup("USER"));
         authGroupRepository.saveAll(user);
         User hadi = new User("Hadi", passwordEncoder.encode("dummy2"), user);
         userRepository.save(yaser);

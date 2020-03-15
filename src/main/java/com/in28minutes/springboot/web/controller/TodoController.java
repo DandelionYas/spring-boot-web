@@ -4,6 +4,7 @@ import com.in28minutes.springboot.web.model.Todo;
 import com.in28minutes.springboot.web.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -48,6 +49,7 @@ public class TodoController {
     }
 
     @PostMapping("/add-todo")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
         if(result.hasErrors()) {
             return "todo";
@@ -59,12 +61,14 @@ public class TodoController {
     }
 
     @GetMapping("/delete-todo")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteTodo(@RequestParam int id) {
         repository.deleteById(id);
         return "redirect:/list-todos";
     }
 
     @GetMapping("/update-todo")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
         Optional<Todo> todo = repository.findById(id);
         todo.ifPresent(a -> model.addAttribute("todo", todo.get()));
@@ -72,6 +76,7 @@ public class TodoController {
     }
 
     @PostMapping("/update-todo")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String updateTodo(@Valid Todo todo, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             return "todo";

@@ -15,13 +15,10 @@ public class AuthGroup {
     @Id
     @GeneratedValue
     private Integer id;
-    @Column
-    private String username;
     @Column(name = "AUTH_GROUP")
     private String authGroup;
 
-    public AuthGroup(String username, String authGroup) {
-        this.username = username;
+    public AuthGroup(String authGroup) {
         this.authGroup = authGroup;
     }
 }

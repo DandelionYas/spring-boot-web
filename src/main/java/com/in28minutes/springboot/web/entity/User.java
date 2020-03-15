@@ -21,7 +21,7 @@ public class User {
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "USER_FK")
+    @JoinColumn(name = "USER_ID")
     private List<AuthGroup> authGroups;
 
     public User(String username, String password, List<AuthGroup> authGroups) {
