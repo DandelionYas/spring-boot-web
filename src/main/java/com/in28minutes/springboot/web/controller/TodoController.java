@@ -1,5 +1,6 @@
 package com.in28minutes.springboot.web.controller;
 
+import com.in28minutes.springboot.web.exception.BadDescriptionFieldForTodoException;
 import com.in28minutes.springboot.web.model.Todo;
 import com.in28minutes.springboot.web.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class TodoController {
     @PostMapping("/add-todo")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "todo";
         }
 
@@ -72,14 +73,18 @@ public class TodoController {
     public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
         Optional<Todo> todo = repository.findById(id);
         todo.ifPresent(a -> model.addAttribute("todo", todo.get()));
-         return "todo";
+        return "todo";
     }
 
     @PostMapping("/update-todo")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String updateTodo(@Valid Todo todo, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
-            return "todo";
+            /*
+            * We only have bean validation on description field
+            * This exception is just thrown for seeing the impact of TodoErrorHandler
+            */
+            throw new BadDescriptionFieldForTodoException();
         }
 
         todo.setUser(getLoggedInUsername(model));
